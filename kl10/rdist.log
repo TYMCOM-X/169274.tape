@@ -1,0 +1,155 @@
+.:logfile rdist.log
+:define $substitution=$true
+sysno
+TYMSHARE X14-P035/D-9 1-12-88
+.run (xexec)minit
+
+.rdist *.*/master:33/host:14,17,32/check
+Master host: 33
+105 files on master system.
+Slave hosts: 14,17,32
+Checking host 14
+(KL10        :  14) RDIST.LOG      1 01-Mar-89 12:09 -- bad checksum NELXES
+                           should be 21-Feb-89 18:07 ROXWOF  ALL  RD  NO
+(KL10        :  14) IKLDCP.TXT    56 21-Nov-78 16:33 -- bad checksum FUZHIB
+                           should be 21-Nov-78 16:33 LUGKAM  ALL  RD  NO
+(KL10        :  14) APT10.SAV                        -- missing on slave
+(KL10        :  14) APT10.DOC                        -- missing on slave
+Checking host 17
+
+?unable to build circuit to KL10:17
+?host unavailable
+
+?unable to build circuit to KL10:17
+?host unavailable
+
+?unable to build circuit to KL10:17
+?host unavailable
+
+?unable to build circuit to KL10:17
+?host unavailable
+
+?unable to build circuit to KL10:17
+?host unavailable
+Creaux failed to KL10:17
+Checking host 32
+
+?unable to build circuit to KL10:32
+?host unavailable
+
+?unable to build circuit to KL10:32
+?host unavailable
+
+?unable to build circuit to KL10:32
+?host unavailable
+
+?unable to build circuit to KL10:32
+?host unavailable
+
+?unable to build circuit to KL10:32
+?host unavailable
+Creaux failed to KL10:32
+
+End of SAIL execution
+.copy rdist.log,rdist.out
+
+.mung findit,rdist.out
+
+FINDIT.TEC V5 - Clean up log from MHX+(SPL)FINDIT and sort by file name
+4
+R SORT
+rdist.out=rdist.out/R80/K21.10/K54.6/K1.20
+SORTED 4 RECORDS
+
+EXIT
+
+.copy rdist.log,rdist.Wednesday
+
+.rdist rdist.*/host:14,17,32,33
+Master host: 14
+10 files on master system.
+Slave hosts: 14,17,32,33
+Checking host 14
+(KL10        :  14) RDIST.LOG      1 01-Mar-89 12:09 -- bad checksum RUKYID
+                           should be 01-Mar-89 12:09 LUKYOP  ALL  RD  NO
+Checking host 17
+
+?unable to build circuit to KL10:17
+?host unavailable
+
+?unable to build circuit to KL10:17
+?host unavailable
+
+?unable to build circuit to KL10:17
+?host unavailable
+
+?unable to build circuit to KL10:17
+?host unavailable
+
+?unable to build circuit to KL10:17
+?host unavailable
+Creaux failed to KL10:17
+Checking host 32
+
+?unable to build circuit to KL10:32
+?host unavailable
+
+?unable to build circuit to KL10:32
+?host unavailable
+
+?unable to build circuit to KL10:32
+?host unavailable
+
+?unable to build circuit to KL10:32
+?host unavailable
+
+?unable to build circuit to KL10:32
+?host unavailable
+Creaux failed to KL10:32
+Checking host 33
+(KL10        :  33) RDIST.WED      2 15-Feb-89 18:10 -- bad checksum VOQDOQ
+                           should be 01-Mar-89 12:16 GOTYUH  ALL  RD  NO
+(KL10        :  33) RDIST.LOG      3 21-Feb-89 18:07 -- bad checksum ROXWOF
+                           should be 01-Mar-89 12:09 LUKYOP  ALL  RD  NO
+(KL10        :  33) RDIST.OUT      2 21-Feb-89 18:07 -- bad checksum WIXNOL
+                           should be 01-Mar-89 12:16 JERCAB  ALL  RD  NO
+Starting TELECOPY
+
+: 
+: 
+: 
+"COPY TO" AND "COPY FROM" SYSTEM MUST NOT BE THE SAME.
+
+: 
+REPLACING FILE (KL10:33)RDIST.WED
+
+COPY STARTING
+
+(KL10:14)RDIST.WED COPIED TO (KL10:33)RDIST.WED
+
+2304 (1297) CHARS. TRANSMITTED
+
+: 
+REPLACING FILE (KL10:33)RDIST.LOG
+
+COPY STARTING
+
+(KL10:14)RDIST.LOG COPIED TO (KL10:33)RDIST.LOG
+
+4608 (2657) CHARS. TRANSMITTED
+
+: 
+REPLACING FILE (KL10:33)RDIST.OUT
+
+COPY STARTING
+
+(KL10:14)RDIST.OUT COPIED TO (KL10:33)RDIST.OUT
+
+279 (245) CHARS. TRANSMITTED
+
+: 
+.LOGOUT
+51.36 tru
+terminal time: 0:08:10
+
+; Req #7847 completed
