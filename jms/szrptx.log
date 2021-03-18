@@ -1,0 +1,136 @@
+!:LOGFILE SZRPTX.LOG
+:PARAMETERS $SUBSTITUTION=$TRUE
+;Update the access date for these files for next system startup
+!DCOM SATSYS.LOG=SATSYS.CTL/NOMAIL
+[PCOM in frame 9]
+!GFD ZZZ-LAST-DIR
+This is the last directory on the ALL-FILES tape.
+
+!COPY ACCESS.MSG,ACCESS.MSG
+
+!GFD
+  (JMS)=[3,431116]
+
+!DAYTIME		;Wednesday
+1-MAR-1989 11:30:24 PST
+
+!SYS G
+
+TYMSHARE X14-P035/D-9 1-12-88 up 10:16 at 11:30:27 on Wed Mar 1,1989
+Null time = 6:01, Idle = 58% (Idle time per MIN. = 51%)
+8 jobs in use out of 31.  6 detached
+
+Users=8 Det=6 [2,2], Queues: RUN=1 DIO=0 TIO=2 IO=0 SPC=5
+896 Physical pages available (MONITOR = 282P, User Area = 614P)
+Virt. memory used (TPU/TPA): 402/614 = 65%
+
+DSKB: 19906 Pages free, 8 users
+
+!ASSIGN DSK TTY	;Put listing in DSK:SZRPT.LST
+DSK assigned
+
+!R SZRPT		;## NOTE: Sort by USER on X32, X17, X14 only ##
+Inhouse separated? (Y,N,I,O,2) Y
+Sort by? USER
+Working...
+!DEASSIGN	;Listing back to TTY
+
+!R SZRPT
+Inhouse separated? (Y,N,I,O,2) 6
+Sort by? SIZE
+Working...
+1-MAR-1989	11:31
+
+TOTAL PAGES 70359  FILES 6432
+
+  INHOUSE	QUOTA		  OVER		OUTHOUSE
+
+70340   6426                             19   6
+
+ 21  15454  608 999999 SYS                47      9    4  15000 TRWNET
+ 31   6611 1165  50000 CURR11             89      8    1   5000 LOADII
+ 40   6180  377  10000 KS2020            100      2    1   1250 TNXAIL
+ 47   5385  564  60000 DERNST
+ 53   3671  558  10000 OLD11
+ 57   2857  426   5000 NEW11
+ 60   2720  537 100000 CARL
+ 64   2482  149   3000 F3CODE
+ 67   2274   32  99999 M33
+ 70   1917  177  20000 MPL
+ 73   1910  174  25000 OSMAN
+ 75   1844  103   6000 KL10
+ 78   1690   60  10000 UN1
+ 80   1686   94   5000 FTSYS
+ 82   1308   74   2000 JMS-KERMIT
+ 84   1300  116   5000 SPL
+ 86   1212   96   5000 KSDIAG
+ 87    793   94   5000 TOOLS11
+ 88    751   23  25000 MAIL
+ 89    722  101   7000 SUBMIT
+ 90    632    4   5000 TOPS10
+ 90    576   75  10000 XEXEC
+ 91    542   99  25000 UFD
+ 92    461    7   2000 TOPS20
+ 93    439   38   1250 SRA
+ 93    414  110   5000 SAILIB
+ 94    382    7  20000 OSP
+ 94    377   52  25000 INFO
+ 95    376   91  25000 TXSTEXT
+ 95    328   50   2500 UTIL
+ 96    310    5 250000 UAS
+ 96    289   55  20000 JMS
+ 96    264   19  20000 NOBACKUP
+ 97    237    9   1000 TYMNET
+ 97    199    9 100000 YEUX
+ 97    198   23   5000 WRS
+ 98    197    5  25000 BILLING10
+ 98    179   35  12500 DANIELSR
+ 98    153    9  10000 PEAK
+ 98    116    8 200000 BADFILES
+ 98    110   29   2500 PJ
+ 99    102   12  25000 CUD10
+ 99     72   13  10000 OSU
+ 99     63    3   2500 DIAG10
+ 99     61   15   5000 SPPOPER
+ 99     61    5  30000 CNFE
+ 99     55    7 250000 SPOOL
+ 99     52    4  41248 TYM5
+ 99     50    8   1500 PKRUMV
+ 99     47    1   1000 LPTSPL
+ 99     35   16   1250 RODRIGUEZL
+ 99     33   15   1250 POINTERC
+ 99     27    6  25000 TXSSUP
+ 99     25    1  10000 SMITHDE
+ 99     12    6  25000 SSPAMBIN
+ 99     12    6 250000 OPER
+ 99     11    5   1000 SALLY
+ 99      8    4   1250 FLETCHERC
+ 99      8    4   1250 PERPOPER
+ 99      6    1   1000 RICHARDSON
+
+!;SZRPT.LST=GAN:3, SZRPTX.LOG=ALL
+!DIRECT SZRPT?.*
+
+SZRPT   LST       3   1-MAR-89 1130    ALL RD  NO       642
+SZRPTX  LOG       1   1-MAR-89 1129    ALL RD  NO      1024
+SZRPT   LOG       3  22-FEB-89   48    ALL RD  NO      1024
+SZRPT   WED       3  22-FEB-89   48    ALL RD  NO      1024
+SZRPT   TUE       3  21-FEB-89   47    ALL RD  NO      1024
+SZRPT   MON       3  20-FEB-89   48    ALL RD  NO      1024
+SZRPT   SUN       3  19-FEB-89   48    ALL RD  NO      1024
+SZRPT   SAT       3  18-FEB-89   48    ALL RD  NO      1024
+SZRPT   FRI       3  17-FEB-89   47    ALL RD  NO      1024
+SZRPT   THU       3  16-FEB-89   47    ALL RD  NO      1024
+SZRPTX  CTL       2  23-JAN-89   31    ALL RD  NO       102
+SZRPT   CTL       2  23-JAN-89    3    ALL RD  NO        73
+SZRPTX  BAK       2  22-AUG-88 1854    ALL RD  NO       104
+
+!COPY SZRPTX.LOG,SZRPT.Wednesday
+
+!COPY SZRPTX.LOG,SZRPT.LOG
+
+!LOGOUT
+32.96 tru
+terminal time: 0:05:04
+
+; Req #7849 completed
