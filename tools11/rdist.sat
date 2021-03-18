@@ -1,0 +1,144 @@
+!:logfile rdist.log
+:define $substitution=$true
+sysno
+TYMSHARE X14-P035/D-9 1-12-88
+!run (xexec)minit
+
+!rdist *.*/master:33/host:14,17,32/check
+Master host: 33
+92 files on master system.
+Slave hosts: 14,17,32
+Checking host 14
+(TOOLS11     :  14) RDIST.LOG      1 21-Jan-89 19:45 -- bad checksum TUNZIY
+                           should be 18-Jan-89 19:51 JUYPUP  ALL  RD  NO
+(TOOLS11     :  14) MAIL.FWD       2 28-Nov-88 15:16 -- extra not on master
+(TOOLS11     :  14) FINDIT.TEC     2 10-Jan-89 13:05 -- extra not on master
+(TOOLS11     :  14) RDIST.SAT                        -- missing on slave
+(TOOLS11     :  14) RDIST.FRI                        -- missing on slave
+Checking host 17
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+Creaux failed to TOOLS11:17
+Checking host 32
+##
+Findit: timeout
+(TOOLS11     :  32) NIBTRN.SXV                       -- missing on slave
+(TOOLS11     :  32) DMP11D.SAV                       -- missing on slave
+(TOOLS11     :  32) WXOXMF.MA0                       -- missing on slave
+(TOOLS11     :  32) TTYRPT.TXT                       -- missing on slave
+(TOOLS11     :  32) PARTS.RPT                        -- missing on slave
+(TOOLS11     :  32) WXOXMF.MD0                       -- missing on slave
+(TOOLS11     :  32) WXOXMF.MX0                       -- missing on slave
+(TOOLS11     :  32) WXOXMF.MS0                       -- missing on slave
+(TOOLS11     :  32) NIBTRN.SAV                       -- missing on slave
+(TOOLS11     :  32) GENBAS.SXI                       -- missing on slave
+(TOOLS11     :  32) GENBAS.SXV                       -- missing on slave
+(TOOLS11     :  32) MN11CM.SAI                       -- missing on slave
+(TOOLS11     :  32) MN11CM.SAV                       -- missing on slave
+(TOOLS11     :  32) NUMOUT.SAI                       -- missing on slave
+(TOOLS11     :  32) MSG.SAI                          -- missing on slave
+(TOOLS11     :  32) MSG.SAV                          -- missing on slave
+(TOOLS11     :  32) GENBAS.SAV                       -- missing on slave
+(TOOLS11     :  32) GENBAS.SAI                       -- missing on slave
+(TOOLS11     :  32) MAGNUM.DIR                       -- missing on slave
+(TOOLS11     :  32) BURN.OLD                         -- missing on slave
+(TOOLS11     :  32) DOCBLD.REL                       -- missing on slave
+(TOOLS11     :  32) DOCBLD.SAI                       -- missing on slave
+(TOOLS11     :  32) DOCBLD.SAV                       -- missing on slave
+(TOOLS11     :  32) JEFF.TST                         -- missing on slave
+(TOOLS11     :  32) BURN.SAV                         -- missing on slave
+(TOOLS11     :  32) DCPCVT.SAV                       -- missing on slave
+(TOOLS11     :  32) DCPCVT.SAI                       -- missing on slave
+(TOOLS11     :  32) BURN.SAI                         -- missing on slave
+(TOOLS11     :  32) DATBAS.TXT                       -- missing on slave
+(TOOLS11     :  32) J9UMHP.ME0                       -- missing on slave
+(TOOLS11     :  32) DMP11I.SAV                       -- missing on slave
+(TOOLS11     :  32) JWRLIB.SAI                       -- missing on slave
+(TOOLS11     :  32) GENCMD.SAI                       -- missing on slave
+(TOOLS11     :  32) GENCMD.SAV                       -- missing on slave
+(TOOLS11     :  32) NK6WC7.MR0                       -- missing on slave
+(TOOLS11     :  32) TTY.RPT                          -- missing on slave
+(TOOLS11     :  32) RDIST.OUT                        -- missing on slave
+(TOOLS11     :  32) RDIST.SAT                        -- missing on slave
+(TOOLS11     :  32) RDIST.SUN                        -- missing on slave
+(TOOLS11     :  32) RDIST.FRI                        -- missing on slave
+(TOOLS11     :  32) RDIST.THU                        -- missing on slave
+(TOOLS11     :  32) RDIST.WED                        -- missing on slave
+(TOOLS11     :  32) RDIST.TUE                        -- missing on slave
+(TOOLS11     :  32) RDIST.CTL                        -- missing on slave
+(TOOLS11     :  32) RDIST.LOG                        -- missing on slave
+(TOOLS11     :  32) RDIST.MON                        -- missing on slave
+(TOOLS11     :  32) GENSAT.SXI                       -- missing on slave
+(TOOLS11     :  32) GENSAT.SXV                       -- missing on slave
+(TOOLS11     :  32) GENNOD.SXI                       -- missing on slave
+(TOOLS11     :  32) GENNOD.SXV                       -- missing on slave
+(TOOLS11     :  32) GENNOD.NEW                       -- missing on slave
+(TOOLS11     :  32) GENNOD.V11                       -- missing on slave
+(TOOLS11     :  32) BDVCVT.SAV                       -- missing on slave
+(TOOLS11     :  32) BDVCVT.SAI                       -- missing on slave
+(TOOLS11     :  32) GENNOD.REL                       -- missing on slave
+(TOOLS11     :  32) GENSAT.REL                       -- missing on slave
+(TOOLS11     :  32) PRTRPT.TXT                       -- missing on slave
+(TOOLS11     :  32) LAN6I7.MR0                       -- missing on slave
+(TOOLS11     :  32) GENNOD.SAV                       -- missing on slave
+(TOOLS11     :  32) GENNOD.SAI                       -- missing on slave
+(TOOLS11     :  32) GENSAT.SAV                       -- missing on slave
+(TOOLS11     :  32) GENSAT.SAI                       -- missing on slave
+(TOOLS11     :  32) UPPER.SHR                        -- missing on slave
+(TOOLS11     :  32) LOAD11.SAV                       -- missing on slave
+(TOOLS11     :  32) EDIT.DOC                         -- missing on slave
+(TOOLS11     :  32) INIT.SAI                         -- missing on slave
+(TOOLS11     :  32) TSTPRG.SAV                       -- missing on slave
+(TOOLS11     :  32) TSTPRG.SAI                       -- missing on slave
+(TOOLS11     :  32) YES.SAI                          -- missing on slave
+(TOOLS11     :  32) GETNOD.SAI                       -- missing on slave
+(TOOLS11     :  32) TITEST.SAV                       -- missing on slave
+(TOOLS11     :  32) TITEST.SAI                       -- missing on slave
+(TOOLS11     :  32) LINK11                           -- missing on slave
+(TOOLS11     :  32) CPDOC.SAI                        -- missing on slave
+(TOOLS11     :  32) CPDOC.SAV                        -- missing on slave
+(TOOLS11     :  32) CPDOC.REL                        -- missing on slave
+(TOOLS11     :  32) CPDOC.ORG                        -- missing on slave
+(TOOLS11     :  32) QG7JKH.MP0                       -- missing on slave
+(TOOLS11     :  32) N4GBCW.MP0                       -- missing on slave
+(TOOLS11     :  32) QG7JKH.ME0                       -- missing on slave
+(TOOLS11     :  32) N4GBCW.ME0                       -- missing on slave
+(TOOLS11     :  32) LINK11.SAV                       -- missing on slave
+(TOOLS11     :  32) RPG.INI                          -- missing on slave
+(TOOLS11     :  32) NODLOD.SXI                       -- missing on slave
+(TOOLS11     :  32) NODLOD.SXV                       -- missing on slave
+(TOOLS11     :  32) ACCESS.MSG                       -- missing on slave
+(TOOLS11     :  32) MACN11.EXE                       -- missing on slave
+(TOOLS11     :  32) JEFF1.TST                        -- missing on slave
+(TOOLS11     :  32) MACN11.SHR                       -- missing on slave
+(TOOLS11     :  32) ACCESS.LIS                       -- missing on slave
+(TOOLS11     :  32) NODLOD.SAV                       -- missing on slave
+(TOOLS11     :  32) NODLOD.SAI                       -- missing on slave
+
+End of SAIL execution
+!copy rdist.log,rdist.out
+
+!mung findit,rdist.out
+
+FINDIT.TEC V5 - Clean up log from MHX+(SPL)FINDIT and sort by file name
+97
+R SORT
+rdist.out=rdist.out/R80/K21.10/K54.6/K1.20
+SORTED 97 RECORDS
+
+EXIT
+
+!                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           V  Ü
