@@ -1,0 +1,143 @@
+.:logfile rdist.log
+:define $substitution=$true
+sysno
+TYMSHARE X14-P035/D-9 1-12-88
+.run (xexec)minit
+
+.rdist *.*/master:33/host:14,17,32/check
+Master host: 33
+92 files on master system.
+Slave hosts: 14,17,32
+Checking host 14
+(KSDIAG      :  14) ACCESS.MSG     2 01-Dec-88 18:12 -- bad checksum JERDAX
+                           should be 28-Oct-87 11:14 QEHFOS  ALL  RD  RD
+(KSDIAG      :  14) RDIST.LOG      1 22-Jan-89 15:15 -- bad checksum CUVJAM
+                           should be 19-Jan-89 15:24 KOPMEG  ALL  RD  NO
+Checking host 17
+
+?unable to build circuit to KSDIAG:17
+?host unavailable
+
+?unable to build circuit to KSDIAG:17
+?host unavailable
+
+?unable to build circuit to KSDIAG:17
+?host unavailable
+
+?unable to build circuit to KSDIAG:17
+?host unavailable
+
+?unable to build circuit to KSDIAG:17
+?host unavailable
+Creaux failed to KSDIAG:17
+Checking host 32
+##
+Findit: timeout
+(KSDIAG      :  32) SSLOAD.MAC                       -- missing on slave
+(KSDIAG      :  32) SMDDT.HLP                        -- missing on slave
+(KSDIAG      :  32) DSKDA.SAV                        -- missing on slave
+(KSDIAG      :  32) SMDDT.SAV                        -- missing on slave
+(KSDIAG      :  32) DSXLA.INP                        -- missing on slave
+(KSDIAG      :  32) DSKAK.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKCB.SAV                        -- missing on slave
+(KSDIAG      :  32) SMMAG.SAV                        -- missing on slave
+(KSDIAG      :  32) SMMAG.EXE                        -- missing on slave
+(KSDIAG      :  32) SMMON.SAV                        -- missing on slave
+(KSDIAG      :  32) SMMON.EXE                        -- missing on slave
+(KSDIAG      :  32) DSMMD.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKAD.SAV                        -- missing on slave
+(KSDIAG      :  32) SUBSM.SAV                        -- missing on slave
+(KSDIAG      :  32) FINDIT.TEC                       -- missing on slave
+(KSDIAG      :  32) SSMON.SAV                        -- missing on slave
+(KSDIAG      :  32) DSLPA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKAJ.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKCA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSMMC.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKAC.SAV                        -- missing on slave
+(KSDIAG      :  32) DSCDA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSTUB.SAV                        -- missing on slave
+(KSDIAG      :  32) SLVPSP.SAV                       -- missing on slave
+(KSDIAG      :  32) RUNNER.SAV                       -- missing on slave
+(KSDIAG      :  32) DSTUA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSMMB.SAV                        -- missing on slave
+(KSDIAG      :  32) KS10.ULD                         -- missing on slave
+(KSDIAG      :  32) SMBC2.SAV                        -- missing on slave
+(KSDIAG      :  32) SMBC2.EXE                        -- missing on slave
+(KSDIAG      :  32) DSKCG.SAV                        -- missing on slave
+(KSDIAG      :  32) KS10.RSQ                         -- missing on slave
+(KSDIAG      :  32) KS10.RAM                         -- missing on slave
+(KSDIAG      :  32) DSKAI.SAV                        -- missing on slave
+(KSDIAG      :  32) BEWARE.TXT                       -- missing on slave
+(KSDIAG      :  32) DSKBA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSRPA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKAB.SAV                        -- missing on slave
+(KSDIAG      :  32) SMCPU.CMD                        -- missing on slave
+(KSDIAG      :  32) KSMON.SAV                        -- missing on slave
+(KSDIAG      :  32) XCORE.SAV                        -- missing on slave
+(KSDIAG      :  32) DCMMD.SAV                        -- missing on slave
+(KSDIAG      :  32) SMTAPE.SAV                       -- missing on slave
+(KSDIAG      :  32) SMTAPE.RAM                       -- missing on slave
+(KSDIAG      :  32) SMTAPE.MTA                       -- missing on slave
+(KSDIAG      :  32) SMTAPE.DIR                       -- missing on slave
+(KSDIAG      :  32) DSKAH.SAV                        -- missing on slave
+(KSDIAG      :  32) DSRHA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSMMA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKAA.SAV                        -- missing on slave
+(KSDIAG      :  32) SMTAPE.RDI                       -- missing on slave
+(KSDIAG      :  32) DSKCF.SAV                        -- missing on slave
+(KSDIAG      :  32) RDIST.QQQ                        -- missing on slave
+(KSDIAG      :  32) RDIST.THU                        -- missing on slave
+(KSDIAG      :  32) RDIST.MON                        -- missing on slave
+(KSDIAG      :  32) RDIST.LOG                        -- missing on slave
+(KSDIAG      :  32) RDIST.OUT                        -- missing on slave
+(KSDIAG      :  32) RDIST.FRI                        -- missing on slave
+(KSDIAG      :  32) RDIST.CTL                        -- missing on slave
+(KSDIAG      :  32) DSKCE.SAV                        -- missing on slave
+(KSDIAG      :  32) DSDUA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSRMB.SAV                        -- missing on slave
+(KSDIAG      :  32) DSLTA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKEC.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKAG.SAV                        -- missing on slave
+(KSDIAG      :  32) SMFLT.CMD                        -- missing on slave
+(KSDIAG      :  32) DDQDF.SAV                        -- missing on slave
+(KSDIAG      :  32) SUBUSR.SAV                       -- missing on slave
+(KSDIAG      :  32) DSKMA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKFA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSRMA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKAM.SAV                        -- missing on slave
+(KSDIAG      :  32) SMAPT.SAV                        -- missing on slave
+(KSDIAG      :  32) SMAPT.HLP                        -- missing on slave
+(KSDIAG      :  32) DSKCD.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKAF.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKEB.SAV                        -- missing on slave
+(KSDIAG      :  32) SMUSR.CMD                        -- missing on slave
+(KSDIAG      :  32) KSDIAG.MEM                       -- missing on slave
+(KSDIAG      :  32) 2020TP.SAV                       -- missing on slave
+(KSDIAG      :  32) CONVRT.SAV                       -- missing on slave
+(KSDIAG      :  32) DSUBA.SAV                        -- missing on slave
+(KSDIAG      :  32) SMFILE.HLP                       -- missing on slave
+(KSDIAG      :  32) SMFILE.EXE                       -- missing on slave
+(KSDIAG      :  32) SMFILE.TXT                       -- missing on slave
+(KSDIAG      :  32) DSKAL.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKCC.SAV                        -- missing on slave
+(KSDIAG      :  32) DSDZA.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKAE.SAV                        -- missing on slave
+(KSDIAG      :  32) DSKEA.SAV                        -- missing on slave
+(KSDIAG      :  32) ACCESS.LIS                       -- missing on slave
+(KSDIAG      :  32) ACCESS.MSG                       -- missing on slave
+
+End of SAIL execution
+.copy rdist.log,rdist.out
+
+.mung findit,rdist.out
+
+FINDIT.TEC V5 - Clean up log from MHX+(SPL)FINDIT and sort by file name
+94
+R SORT
+rdist.out=rdist.out/R80/K21.10/K54.6/K1.20
+SORTED 94 RECORDS
+
+EXIT
+
+.copy rdist.log,rdist.Sunday
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           a@%Õ
