@@ -1,0 +1,421 @@
+TITLE	TYPBAT - Types the BAT page - list of bad spots on the disk
+SUBTTL	Created 28-May-87 by Joe Smith
+
+	T4=1+<T3=1+<T2=1+<T1=1+<F=0>>>>
+	P4=1+<P3=1+<P2=1+<P1=1+<U=1+T4>>>>
+	P=17
+
+	OPDEF	PJRST	[JUMPA 17,]
+	OPDEF	DATUUO	[CALLI -55]
+	OPDEF	VCLEAR	[CALLI -66]
+	OPDEF	CHANIO	[043B8]
+	.CHSMP==43	;Super map
+	CHN==0		;I/O channel
+
+P2BLSH==2		;Pages to blocks
+W2PLSH==-^D9		;Words to pages
+
+%BAT= 376000		;Virtual address for reading in first BAT page
+  %BAT.N=%BAT_W2PLSH
+%BT2=%BAT+1000		;Virtual address for reading in second BAT page
+  %BT2.N=%BT2_W2PLSH
+;Definitions from (M33)COMMOD.MAC
+
+LP1BAT==2	;Primary BAT is logical page 2
+LP2BAT==7	;Secondary BAT is logical page 7
+RBREAL==(1B1)	;Denotes valid retrieval pointer
+RBUNIT==(377B16);Unit field of ret ptr
+
+BATNAM==0	;CONTAINS SIXBIT /BAT/ FOR IDENTIFICATION
+BATFIR==1	;LH=-MAX. POSSIBLE NO. OF WORDS FOR BAD REGIONS MAP PROGRAM
+		; AND MONITOR CAN ADD BEFORE PAGE FILLS UP
+		;RH=REL ADR. WITHIN THIS PAGE OF FIRST BAD REGION PAIR
+		; MAP PROGRAM FORCES LH TO BE EVEN NUMBER.
+BATPAT==2	;TOTAL NUMBER OF BAD PAGES
+
+BATCNT==3	;NO. OF DISTINCT BAD REGION WORD PAIRS
+
+BATREG==4	;FIRST BAD REGION WORD GOES HERE.
+BRMAX==BATCOD-BATREG	;MAX LENGTH OF AREA FOR APPENDING BAD REGIONS
+
+BATNBB==0	;(1 OF 2 WORDS) NUMBER OF BAD SECTORS-1 IN THIS BAD REGION
+  BATNUM==777	;MAX NUMBER OF BAD PAGES IN A REGION-1
+  BASNBB==^D9	;BYTE SIZE
+  BANNBB==^D8	;BYTE PTR. POS.
+MAPBIT==1B9	;SET BY MAP PROGRAM IF DATE IS UNKNOWN TO MAKE NON-ZERO
+		;BITS 18-35 ARE DATE OF ENTRY IN TYMCOM-X FORMAT
+BAYNBB:	POINT BASNBB,BATNBB(T2),BANNBB		;BYTE PTR
+
+BATELB==1	;(2 OF 2 WORDS) ERROR LOGICAL SECTOR ADR. WITHIN UNIT
+		;BLOCK NUMBER IF FORMATTED IN BLOCKS, ELSE PAGE NUMBER
+
+BATCOD==776	;CONTAINS UNLIKELY CODE, LH=0, RH=CODBAT
+CODBAT==505050	;UNLIKELY CODE FOR BAT PAGE
+BATSLF==777	;BITS 0-16=0, RH=THIS PAGE ADDR WITHIN UNIT
+
+;Definitions for UNICHR
+  ;;1B0		;;Sign bit set if formatted in pages, clear if in blocks
+UNYBPR:	POINT  8,UNICHR,8	;Blocks per sector (1 or 4)
+UNYBPT:	POINT  9,UNICHR,17	;Blocks per track, for BPXKON,RMXKON
+UNYPPT:	POINT  7,UNICHR,15	;Pages per track, for APXKON,CPXKON
+UNYBPY:	POINT 18,UNICHR,35	;Blocks per cylinder, for BPXKON,RMXKON
+UNYPPY:	POINT 16,UNICHR,33	;Pages per cyl, for FILIO,APXKON,CPXKON,REFSTR
+SUBTTL	Main program
+
+STR:	SIXBIT	/DSKB/
+
+DSKBLK:	BLOCK	<DSKLEN==6+1>
+	UNICHR=DSKBLK+5		;Unit characteristics
+	UNIPPU=DSKBLK+6		;Pages per unit
+
+PDL:	BLOCK	<PDLEN==20>
+
+
+START:	JFCL			;No CCL entry
+	MOVE	P,[IOWD PDLEN,PDL]
+	MOVSI	U,-100		;Do DSKB0 thru DSKB77
+
+;Loop to type out BAT pages for each unit of the disk structure
+
+NEXTU:	PUSHJ	P,REDBAT	;Read in both BAT pages
+	  JRST	DONEU		;Can't read, maybe no such unit
+	PUSHJ	P,TYPBAT	;Display contents
+DONEU:	AOBJN	U,NEXTU		;Do next unit of STR
+	MOVEI	T1,[ASCIZ /Done./]
+	PUSHJ	P,CRLFOP
+	EXIT	1,
+	EXIT
+
+;Count number of bad spots
+
+TYPBAT:	MOVE	T2,%BAT+BATFIR
+	ADDI	T2,%BAT
+	SETZB	P3,P1		;P1 IS PAGE COUNT, P3 REGION COUNT.
+TYPBT1:	SKIPN	BATNBB(T2)
+	 JRST	TYPBT2		;DONE.
+	ADDI	P3,1		;1 REGION.
+	LDB	T1,BAYNBB	;(uses T2 as index reg)
+	ADDI	P1,1(T1)	;THIS MANY PAGES.
+	AOBJP	T2,TYPBT2
+	AOBJN	T2,TYPBT1
+TYPBT2:	MOVEI	T1,[ASCIZ /% counts do not agree/]
+	CAMN	P1,%BAT+BATPAT	;Page total
+	CAME	P3,%BAT+BATCNT	;Count of regions
+	 PUSHJ	P,CRLFOP
+	MOVE	T1,P1
+	PUSHJ	P,PR6DIG	;Output number in 6-character field
+	MOVEI	T1,[ASCIZ / bad pages in /]
+	PUSHJ	P,CONMES
+	MOVE	T1,P3
+	PUSHJ	P,PRTDIG
+	MOVEI	T1,[ASCIZ / distinct regions./]
+	PUSHJ	P,CRLFOP
+	JUMPE	P3,TYPBT9	;Just CRLF if none
+	MOVEI	T1,[ASCIZ /Do you want a list of bad spots? /]
+	PUSHJ	P,YESNO		;Skip if "Y"
+	  POPJ	P,		;Done if "N" or no bad spots
+;Output the bad spots
+
+	MOVE	P2,%BAT+BATFIR
+	ADDI	P2,%BAT
+TYPBT3:	SKIPN	BATNBB(P2)	;Zero marks end
+	 JRST	TYPBT9
+	MOVE	T2,P2		;Set up T2 for BAYNBB
+	LDB	T1,BAYNBB	;Get repeat count
+	JUMPN	T1,TYPBT4	;Zero means single page
+	MOVEI	T1,[ASCIZ / 1 page  at /]
+	PUSHJ	P,CONMES
+	JRST	TYPBT5
+
+TYPBT4:	ADDI	T1,1		;Add 1 to repeat count
+	PUSHJ	P,PR2DIG	;Output leading blank if needed
+	MOVEI	T1,[ASCIZ / pages at /]
+	PUSHJ	P,CONMES
+
+TYPBT5:	MOVE	T1,BATELB(P2)	;Get page address
+	PUSHJ	P,PRT22A	;19-bit octal number
+	MOVE	T1,BATELB(P2)	;Page address
+	LSH	T1,P2BLSH	;Convert to blocks
+	LDB	T2,UNYBPY	;Blocks per cylinder
+	IDIV	T1,T2
+	LDB	T3,UNYBPT	;Blocks per track
+	IDIV	T2,T3
+	LDB	T4,UNYBPR	;Blocks per record
+	IDIV	T3,T4
+	PUSH	P,T3		;Record (T4 = block in record = 0)
+	PUSH	P,T2		;Track
+	PUSH	P,T1		;Cyl
+	MOVEI	T1,[ASCIZ / = cylinder/]
+	PUSHJ	P,CONMES
+	POP	P,T1
+	PUSHJ	P,PR4DIG
+	MOVEI	T1,[ASCIZ /, head/]
+	PUSHJ	P,CONMES
+	POP	P,T1
+	PUSHJ	P,PR3DIG
+	MOVEI	T1,[ASCIZ /, record/]
+	PUSHJ	P,CONMES
+	POP	P,T1
+	PUSHJ	P,PR3DIG
+	PUSHJ	P,SPACE3
+	HRRZ	T2,BATNBB(P2)	;Get date
+	PUSHJ	P,TYPDAT	;Convert and output it
+	PUSHJ	P,CRLF
+	AOBJP	P2,CPOPJ	;Increment by 2
+	AOBJN	P2,TYPBT3	;Loop
+
+TYPBT9:	PJRST	CRLF		;End of TYPBAT
+
+YESNO:	JRST	CPOPJ1		;Output message in T1, get answer, skip if "Y"
+SUBTTL	Read BAT pages
+
+;REDBAT - read BAT pages.  U has unit # in RH
+
+REDBAT:	MOVE	T1,STR		;Structure name
+	MOVEM	T1,DSKBLK+0
+	HRRZ	T1,U		;Unit number
+	IDIVI	T1,10		;Divide by 8
+	ADDI	T2,'0'		;Unit # in sixbit
+	DPB	T2,[POINT 6,DSKBLK+0,29]
+	DPB	T1,[POINT 6,DSKBLK+0,35] ;Blank out 6th character
+	JUMPE	T1,REDBT1	;Done if single digit
+	ADDI	T1,'0'		;2 digits
+	DPB	T1,[POINT 6,DSKBLK+0,29] ;Tens
+	DPB	T2,[POINT 6,DSKBLK+0,35] ;Units
+
+;Print disk characteristics
+
+REDBT1:	MOVE	T1,[DSKLEN,,DSKBLK]
+	DSKCHR	T1,		;Get disk characteristics
+	  POPJ	P,		;No such unit
+	SETZB	T1,T3
+	MOVE	T2,DSKBLK+0	;Device name
+	OPEN	CHN,T1		;Open channel to disk
+	  POPJ	P,
+	PUSHJ	P,PRNAME	;Output name in T2
+	PUSHJ	P,SPACE3
+	LDB	T1,UNYBPY	;Blocks per cylinder
+	TRO	T1,3		;Round up (BPY is rounded down to multiple of 4)
+	LDB	T2,UNYBPT	;Blocks per track
+	IDIV	T1,T2		;Tracks per cylinder
+	PUSHJ	P,PRTDIG
+	MOVEI	T1,[ASCIZ / heads, /]
+	PUSHJ	P,CONMES
+REDBT2:	LDB	T1,UNYBPT	;Blocks per track
+	LDB	T4,UNYBPR	;Blocks per record
+	IDIV	T1,T4		;Records per track
+	PUSHJ	P,PRTDIG
+	MOVEI	T1,[ASCIZ / ???s per track.  /]
+	CAIN	T4,1
+	 MOVEI	T1,[ASCIZ / blocks per track.  /]
+	CAIN	T4,4
+	 MOVEI	T1,[ASCIZ / pages per track.  /]
+	PUSHJ	P,CONMES
+;Map the pages into core, type self pointers
+
+	MOVE	T1,[2B17+%BAT.N]
+	VCLEAR	T1,		;Unmap previous contents
+	  JFCL
+	MOVE	T1,[.CHSMP,,CHN];Super-map
+	CHANIO	T1,[1B7+1B17+%BAT.N
+		    LP1BAT]	;Primary BAT page
+	  JRST	REDERR
+	MOVE	T1,[.CHSMP,,CHN];Super-map
+	CHANIO	T1,[1B7+1B17+%BT2.N
+		    LP2BAT]	;Secondary BAT page
+	  JRST	REDERR
+	MOVE	T1,%BAT+BATSLF	;Page fault to read disk page 2
+	PUSHJ	P,HWDPNT
+	PUSHJ	P,SPACE3
+	MOVE	T1,%BT2+BATSLF	;Page fault to read disk page 7
+	PUSHJ	P,HWDPNT
+	PUSHJ	P,CRLF
+
+;Verify the self pointers
+
+	MOVEI	T1,[ASCIZ \
+% BAT self pointers are not set up - please run P035/B04 or later monitor\]
+	MOVE	T2,%BAT+BATSLF
+	MOVE	T3,%BT2+BATSLF
+	TLZ	T2,RBUNIT	;Contents of unit field are not relevant
+	TLZ	T3,RBUNIT	; (because BAT info survives REFRESH)
+	CAMN	T2,[RBREAL,,LP1BAT]
+	CAME	T3,[RBREAL,,LP2BAT]
+	 PUSHJ	P,CRLFOP
+
+;Verify that the second BAT page is a duplicate of the first
+
+	MOVSI	P1,-777		;Compare first 511 words
+	MOVEI	P2,0		;No mismatches yet
+CHK1:	MOVE	T3,%BAT(P1)
+	CAME	T3,%BT2(P1)
+	 PUSHJ	P,BATDIF	;The two BAT pages are not identical
+	AOBJN	T2,CHK1
+CPOPJ1:	AOS	(P)
+CPOPJ:	POPJ	P,
+
+
+REDERR:	MOVEI	T1,[ASCIZ /
+? Error trying to read BAT pages - do you have RA (Read Absolute) license?/]
+	PJRST	CRLFOP		;Give non-skip return
+
+;Here if BAT pages do not agree
+
+BATDIF:	MOVEI	T1,[ASCIZ /BAT pages are not identical/]
+	SKIPN	P2		;Has message been output before?
+	 PUSHJ	P,CRLFOP
+	ADDI	P2,1		;Note it
+	HRRZ	T1,P1		;The index
+	PUSHJ	P,PRTOCT
+	MOVEI	T1,[ASCIZ ./  .]
+	PUSHJ	P,CONMES
+	MOVE	T1,%BAT(P1)	;Primary BAT data
+	PUSHJ	P,HWDPNT	;Output 36 bits octal
+	PUSHJ	P,SPACE3
+	MOVE	T1,%BT2(P1)	;Secondary BAT data
+	PUSHJ	P,HWDPNT
+	PJRST	CRLF
+
+SPACE3:	MOVEI	T1,[ASCIZ /   /];3 blanks
+	PJRST	CONMES
+
+;Routine to output the date
+
+TYPDAT:	JUMPE	T2,NODATE	;Call with 14-bit TYMSHARE date in T2
+	MOVEI	T1,0		;No time-of-day
+	MOVSI	P4,400020	;Convert from TYM-GMT to DEC-local
+	PUSHJ	P,DATCOM	;Returns 15-bit date in T2
+	  POPJ	P,		;Illegal date
+	IDIVI	T2,^D<31*12>	;T2/Year
+	ADDI	T2,^D64
+	PUSH	P,T2
+	IDIVI	T3,^D31		;T3/Month, T4/Day
+	PUSH	P,T3
+	MOVEI	T1,1(T4)
+	PUSHJ	P,PR2DIG	;Day (with leading blank if needed)
+	POP	P,T1
+	MOVE	T1,MONTAB(T1)	;"-Mmm-"
+	MOVEM	T1,DATBLK+0	;DATBLK+1 has 0 in bits 0-6
+	MOVEI	T1,DATBLK+0
+	PUSHJ	P,CONMES	;Output month
+	POP	P,T1
+	PJRST	P,PR2DIG	;Year
+
+NODATE:	MOVEI	T1,[ASCIZ /(no date)/]
+	PJRST	CONMES
+
+;User-mode equivilant of DATCOM routine
+DATCOM:	MOVEM	T2,DATBLK+0	;Date
+	MOVEM	T1,DATBLK+1	;Time
+	MOVEM	P4,DATBLK+2	;Format
+	MOVEI	T1,DATBLK
+	DATUUO	T1,		;Convert from 14-bit TYM-GMT to 15-bit DEC
+	  POPJ	P,
+	MOVE	T2,DATBLK+0	;Date
+	MOVE	T1,DATBLK+1	;Time
+	JRST	CPOPJ1		;Success
+
+DATBLK:	BLOCK	3		;For DATUUO
+MONTAB:	ASCII/-Jan--Feb--Mar--Apr--May--Jun--Jul--Aug--Sep--Oct--Nov--Dec-/
+SUBTTL	Subroutines (extracted from ONCDSK, ERRCON, etc)
+
+CRLFOP:	PUSHJ	P,CONMES	;Output message T1 pointfirst
+	PJRST	CRLF
+
+DECLOP:	PUSHJ	P,TYPDEC	;T1 points to ASCIZ string, P1 has number
+CRLF:	MOVEI	T1,[ASCIZ /
+/]
+CONMES:	TLCE	T1,777777	;If LH is 000000
+	TLCN	T1,777777	; or 777777
+	 HRLI	T1,(POINT 7,)	;Make byte pointer
+CONLOP:	ILDB	T3,T1		;Get a char
+	JUMPE	T3,CPOPJ	;Stop at null
+	PUSHJ	P,COMTYO	;Output char in T3
+	JRST	CONLOP
+
+HWDPNT::PUSH	P,T1		;SAVE T1 FOR RH
+	HLRZS	T1		;KEEP JUST LH
+	PUSHJ	P,OCTPNT	;PRINT AS 6 OCTAL DIGITS
+PRT22B:	MOVEI	T1,[ASCIZ /,,/]	;PRINT THE TWO COMMAS
+	PUSHJ	P,CONMES
+PRT22C:	POP	P,T1		;RESTORE T1 FOR RH
+	PJRST	OCTPNT		;PRINT RH AND RETURN
+
+;SUBROUTINE TO PRINT 22 BIT OCTAL ADDRESS
+;CALL:	MOVE	T1,22 BIT ADDRESS
+;	PUSHJ	P,PRT22A
+;	ALWAYS RETURN
+
+PRT22A::PUSH	P,T1		;SAVE 22 BIT ADDRESS
+	HLRZ	T1,(P)		;GET HIGH ORDER HALF
+	JUMPE	T1,PRT22C	;IS IT 0 (USUALLY EXCEPT BIG SYSTEMS)
+	 PUSHJ	P,PRTDI8	;NO, PRINT AS LEADING 0 SUPPRESSED OCTAL
+	JRST	PRT22B		;PRINT ",," AND 6 DIGITS
+
+OCTPNT::HRLZ	T1,T1		;MOVE TO LH FOR ROTATING
+	TRO	T1,700000	;SETUP AN END FLAG
+
+OCTP1:	ROT	T1,3		;GET NEXT OCTAL DIGIT
+	TLNN	T1,777777	;WAS THAT FLAG?
+	 POPJ	P,		;YES, DO NOT PRINT IT
+	PUSH	P,T1		;SAVE T1 OVER I/O ROUTINE
+	PUSHJ	P,PRTNUM	;NO, PRINT OCTAL DIGIT
+	POP	P,T1		;RESTORE T1
+	HRRI	T1,0		;CLEAR RH
+	JRST	OCTP1		;GET NEXT OCTAL DIGIT
+
+PR6DIG:	CAIG	T1,^D100000	;Output leading blanks if not 6 digits
+	 PUSHJ	P,PRSPC
+PR5DIG:	CAIG	T1,^D10000
+	 PUSHJ	P,PRSPC
+PR4DIG:	CAIG	T1,^D1000
+	 PUSHJ	P,PRSPC
+PR3DIG:	CAIG	T1,^D100
+	 PUSHJ	P,PRSPC
+PR2DIG:	CAIG	T1,^D10
+	 PUSHJ	P,PRSPC
+	JRST	PRTDIG
+
+TYPDEC:	PUSHJ	P,CONMES	;Output message in T1
+	MOVE	T1,P1		;Then number in P1
+RADX10:
+PRTDIG::IDIVI	T1,12		;DIVIDE BY 10
+	HRLM	T2,(P)		;RT ON PD LIST
+	JUMPE	T1,.+2		;FINISHED?
+	PUSHJ	P,PRTDIG	;NO, CALL S OR F
+PRTNMM:	HLRZ	T1,(P)		;YES, GET LAST NUMBER
+PRTNUM:	MOVEI	T3,"0"(T1)	;CONVERT TO ASCII
+	PJRST	COMTYO		;AND TYPE IT OUT
+
+;RECURSIVE OCTAL PRINT ROUTINE
+;CALL:	MOVE T1,<OCTAL NUMBER>
+	PUSHJ P,PRTOCT
+
+PRTDI8::
+PRTOCT::IDIVI	T1,10		;DIVIDE BY 8
+	HRLM	T2,(P)		;PUT ON STACK
+	JUMPE	T1,PRTNMM	;FINISHED?
+	PUSHJ	P,PRTDI8	;NO - LOOP
+	PJRST	PRTNMM		;OUTPUT
+
+;Routine to output sixbit name
+;CALL	MOVE U,ADDRESS OF LDB
+;	MOVE T2,NAME
+;	PUSHJ P,PRNAME
+
+PRNAME::JUMPE	T2,CPOPJ	;Stop when no more (no trailing blanks)
+	MOVEI	T1,0
+	LSHC	T1,6		;SHIFT IN NEXT CHAR.
+	MOVEI	T3,40(T1)	;CONVERT SIXBIT TO ASCII
+	PUSHJ	P,COMTYO	;OUTPUT CHARACTER
+	JRST	PRNAME
+
+PRSPC:	MOVEI	T3," "
+COMTYO:	OUTCHR	T3
+	POPJ	P,
+
+
+
+	END	START
+
+  ` £
