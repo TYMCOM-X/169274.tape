@@ -1,0 +1,158 @@
+!:logfile rdist.log
+:define $substitution=$true
+sysno
+TYMSHARE X14-P035/D-9 1-12-88
+!run (xexec)minit
+
+!rdist *.*/master:33/host:14,17,32/check
+Master host: 33
+93 files on master system.
+Slave hosts: 14,17,32
+Checking host 14
+(TOOLS11     :  14) RDIST.LOG      1 01-Mar-89 19:45 -- bad checksum VAYZIY
+                           should be 01-Mar-89 11:46 LINKUR  ALL  RD  NO
+(TOOLS11     :  14) MAIL.FWD       2 28-Nov-88 15:16 -- extra not on master
+Checking host 17
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+Creaux failed to TOOLS11:17
+Checking host 32
+(TOOLS11     :  32) RDIST.LOG      3 20-Feb-89 19:52 -- bad checksum SEXCUL
+                           should be 01-Mar-89 11:46 LINKUR  ALL  RD  NO
+(TOOLS11     :  32) RDIST.WED      3 30-Jan-89 11:48 -- bad checksum JOJMUY
+                           should be 01-Mar-89 11:46 QERJAB  ALL  RD  NO
+(TOOLS11     :  32) RDIST.OUT      2 20-Feb-89 19:52 -- bad checksum XASFEP
+                           should be 01-Mar-89 11:46 ZIPROT  ALL  RD  NO
+(TOOLS11     :  32) MAIL.FWD       2 05-Dec-88 12:04 -- extra not on master
+
+End of SAIL execution
+!copy rdist.log,rdist.out
+
+!mung findit,rdist.out
+
+FINDIT.TEC V5 - Clean up log from MHX+(SPL)FINDIT and sort by file name
+6
+R SORT
+rdist.out=rdist.out/R80/K21.10/K54.6/K1.20
+SORTED 6 RECORDS
+
+EXIT
+
+!copy rdist.log,rdist.Wednesday
+
+!rdist rdist.*/host:14,17,32,33
+Master host: 14
+10 files on master system.
+Slave hosts: 14,17,32,33
+Checking host 14
+(TOOLS11     :  14) RDIST.LOG      1 01-Mar-89 19:45 -- bad checksum NOWNUB
+                           should be 01-Mar-89 19:45 XOCQIS  ALL  RD  NO
+Checking host 17
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+
+?unable to build circuit to TOOLS11:17
+?host unavailable
+Creaux failed to TOOLS11:17
+Checking host 32
+(TOOLS11     :  32) RDIST.LOG      3 20-Feb-89 19:52 -- bad checksum SEXCUL
+                           should be 01-Mar-89 19:45 XOCQIS  ALL  RD  NO
+(TOOLS11     :  32) RDIST.WED      3 30-Jan-89 11:48 -- bad checksum JOJMUY
+                           should be 01-Mar-89 19:49 VOLZIN  ALL  RD  NO
+(TOOLS11     :  32) RDIST.OUT      2 20-Feb-89 19:52 -- bad checksum XASFEP
+                           should be 01-Mar-89 19:49 JEBBUS  ALL  RD  NO
+Checking host 33
+(TOOLS11     :  33) RDIST.LOG      4 01-Mar-89 11:46 -- bad checksum LINKUR
+                           should be 01-Mar-89 19:45 XOCQIS  ALL  RD  NO
+(TOOLS11     :  33) RDIST.WED      4 01-Mar-89 11:46 -- bad checksum QERJAB
+                           should be 01-Mar-89 19:49 VOLZIN  ALL  RD  NO
+(TOOLS11     :  33) RDIST.OUT      3 01-Mar-89 11:46 -- bad checksum ZIPROT
+                           should be 01-Mar-89 19:49 JEBBUS  ALL  RD  NO
+Starting TELECOPY
+
+: 
+: 
+: 
+"COPY TO" AND "COPY FROM" SYSTEM MUST NOT BE THE SAME.
+
+: 
+REPLACING FILE (TOOLS11:32)RDIST.LOG
+
+COPY STARTING
+
+(TOOLS11:14)RDIST.LOG COPIED TO (TOOLS11:32)RDIST.LOG
+
+4608 (2709) CHARS. TRANSMITTED
+
+: 
+REPLACING FILE (TOOLS11:32)RDIST.WED
+
+COPY STARTING
+
+(TOOLS11:14)RDIST.WED COPIED TO (TOOLS11:32)RDIST.WED
+
+2304 (1348) CHARS. TRANSMITTED
+
+: 
+REPLACING FILE (TOOLS11:32)RDIST.OUT
+
+COPY STARTING
+
+(TOOLS11:14)RDIST.OUT COPIED TO (TOOLS11:32)RDIST.OUT
+
+419 (432) CHARS. TRANSMITTED
+
+: 
+REPLACING FILE (TOOLS11:33)RDIST.LOG
+
+COPY STARTING
+
+(TOOLS11:14)RDIST.LOG COPIED TO (TOOLS11:33)RDIST.LOG
+
+4608 (3112) CHARS. TRANSMITTED
+
+: 
+REPLACING FILE (TOOLS11:33)RDIST.WED
+
+COPY STARTING
+
+(TOOLS11:14)RDIST.WED COPIED TO (TOOLS11:33)RDIST.WED
+
+2304 (1348) CHARS. TRANSMITTED
+
+: 
+REPLACING FILE (TOOLS11:33)RDIST.OUT
+
+COPY STARTING
+
+(TOOLS11:14)RDIST.OUT COPIED TO (TOOLS11:33)RDIST.OUT
+
+419 (432) CHARS. TRANSMITTED
+
+: 
+!LOGOUT
+60.35 tru
+terminal time: 0:06:09
